@@ -43,6 +43,8 @@ R2000Node::R2000Node():nh_("~")
     nh_.param("scanner_ip",scanner_ip_,std::string(""));
     nh_.param("scan_frequency",scan_frequency_,35);
     nh_.param("samples_per_scan",samples_per_scan_,3600);
+    nh_.param("min_ang", min_ang_, -M_PI);
+    nh_.param("max_ang", max_ang_, +M_PI);
 
     if( scanner_ip_ == "" )
     {
@@ -131,12 +133,28 @@ void R2000Node::getScanData(const ros::TimerEvent &e)
     scanmsg.range_min = std::atof(driver_->getParametersCached().at("radial_range_min").c_str());
     scanmsg.range_max = std::atof(driver_->getParametersCached().at("radial_range_max").c_str());
 
-    scanmsg.ranges.resize(scandata.distance_data.size());
-    scanmsg.intensities.resize(scandata.amplitude_data.size());
-    for( std::size_t i=0; i<scandata.distance_data.size(); i++ )
+    // adjust angle_min to min_ang config param
+    int index_min = 0;
+    while (scanmsg.angle_min + scanmsg.angle_increment < min_ang_)
     {
-        scanmsg.ranges[i] = float(scandata.distance_data[i])/1000.0f;
-        scanmsg.intensities[i] = scandata.amplitude_data[i];
+        scanmsg.angle_min += scanmsg.angle_increment;
+        index_min++;
+    }
+
+    // adjust angle_max to max_ang config param
+    int index_max = scandata.distance_data.size() - 1;
+    while (scanmsg.angle_max - scanmsg.angle_increment > max_ang_)
+    {
+      scanmsg.angle_max -= scanmsg.angle_increment;
+      index_max--;
+    }
+
+    scanmsg.ranges.resize(index_max - index_min + 1);
+    scanmsg.intensities.resize(index_max - index_min + 1);
+    for (int i = index_min; i <= index_max; i++)
+    {
+        scanmsg.ranges[i - index_min] = float(scandata.distance_data[i])/1000.0f;
+        scanmsg.intensities[i - index_min] = scandata.amplitude_data[i];
     }
     scan_publisher_.publish(scanmsg);
 }

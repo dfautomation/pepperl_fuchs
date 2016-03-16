@@ -79,6 +79,12 @@ private:
     //! samples_per_scan parameter
     int samples_per_scan_;
 
+    //! min_ang parameter
+    double min_ang_;
+
+    //! max_ang parameter
+    double max_ang_;
+
     //! Pointer to driver
     R2000Driver* driver_;
 };
