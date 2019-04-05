@@ -2,8 +2,8 @@
 Changelog for package pepperl_fuchs_r2000
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.4 (2019-04-05)
+------------------
 * Add dynamic reconfigure server.
 * Allow configuration of the minimum and maximum angle of the published scan data.
 * Contributors: Patrick Chin
