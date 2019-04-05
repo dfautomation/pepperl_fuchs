@@ -37,6 +37,11 @@ namespace pepperl_fuchs {
 R2000Node::R2000Node():nh_("~")
 {
     driver_ = 0;
+
+    // ROS dynamic reconfigure server
+    //-------------------------------------------------------------------------
+    ds_.setCallback(boost::bind(&R2000Node::handleConfig, this, _1, _2));
+
     // Reading and checking parameters
     //-------------------------------------------------------------------------
     nh_.param("frame_id", frame_id_, std::string("/scan"));
@@ -157,6 +162,23 @@ void R2000Node::getScanData(const ros::TimerEvent &e)
         scanmsg.intensities[i - index_min] = scandata.amplitude_data[i];
     }
     scan_publisher_.publish(scanmsg);
+}
+
+//-----------------------------------------------------------------------------
+void R2000Node::handleConfig(pepperl_fuchs_r2000::PepperlFuchsR2000Config& config, uint32_t level)
+{
+  ROS_INFO("Configuration received.");
+  frame_id_ = config.frame_id;
+  scan_frequency_ = config.scan_frequency;
+  samples_per_scan_ = config.samples_per_scan;
+  min_ang_ = config.min_ang;
+  max_ang_ = config.max_ang;
+
+  if (driver_)
+  {
+    driver_->setScanFrequency(scan_frequency_);
+    driver_->setSamplesPerScan(samples_per_scan_);
+  }
 }
 
 //-----------------------------------------------------------------------------

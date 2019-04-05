@@ -32,6 +32,8 @@
 
 #include <ros/ros.h>
 #include <std_msgs/String.h>
+#include <dynamic_reconfigure/server.h>
+#include <pepperl_fuchs_r2000/PepperlFuchsR2000Config.h>
 
 namespace pepperl_fuchs {
 class R2000Driver;
@@ -43,6 +45,9 @@ class R2000Node
 public:
     //! Initialize and connect to laser range finder
     R2000Node();
+
+    //! Callback function for dynamic reconfigure server
+    void handleConfig(pepperl_fuchs_r2000::PepperlFuchsR2000Config& config, uint32_t level);
 
     //! Callback function for control commands
     void cmdMsgCallback( const std_msgs::StringConstPtr& msg );
@@ -87,6 +92,9 @@ private:
 
     //! Pointer to driver
     R2000Driver* driver_;
+
+    //! ROS dynamic reconfigure server
+    dynamic_reconfigure::Server<pepperl_fuchs_r2000::PepperlFuchsR2000Config> ds_;
 };
 }
 
