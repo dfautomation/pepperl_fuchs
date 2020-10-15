@@ -2,8 +2,8 @@
 Changelog for package pepperl_fuchs_r2000
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.5 (2020-10-16)
+------------------
 * Fix isolated build.
 * Contributors: Patrick Chin
 
