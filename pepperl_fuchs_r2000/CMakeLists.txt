@@ -53,6 +53,7 @@ add_executable(r2000_node
 target_link_libraries(r2000_node
   r2000_driver
 )
+add_dependencies(r2000_node ${PROJECT_NAME}_gencfg)
 
 add_executable(driver_example
   src/example/driver_example.cpp
