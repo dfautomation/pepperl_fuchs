@@ -2,6 +2,11 @@
 Changelog for package pepperl_fuchs_r2000
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix isolated build.
+* Contributors: Patrick Chin
+
 0.1.4 (2019-04-05)
 ------------------
 * Add dynamic reconfigure server.
