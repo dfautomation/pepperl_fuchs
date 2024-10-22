@@ -57,8 +57,11 @@ R2000Node::R2000Node():nh_("~")
         return;
     }
 
-    if( !connect() )
-        return;
+    while( !connect() )
+    {
+        std::cout << "ERROR: Connect failed. Trying again in 2 seconds..." << std::endl;
+        usleep((2*1000000));
+    }
 
     // Declare publisher and create timer
     //-------------------------------------------------------------------------
