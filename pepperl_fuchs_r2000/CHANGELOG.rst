@@ -2,6 +2,11 @@
 Changelog for package pepperl_fuchs_r2000
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.6 (2025-02-12)
+------------------
+* Reconnect on failure during initialization.
+* Contributors: Patrick Chin
+
 0.1.5 (2020-10-16)
 ------------------
 * Fix isolated build.
